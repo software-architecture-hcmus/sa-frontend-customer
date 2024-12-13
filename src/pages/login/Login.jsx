@@ -1,19 +1,52 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import RouterUrl from "../../const/RouterUrl";
 import { Button, Form, Grid, Input, theme, Typography } from "antd";
-
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { useLocation, useNavigate } from "react-router-dom";
+import { errorNotification, successNotification } from "../../utils/notification";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { authFirebase } from "../../utils/firebase";
+
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export default function Login() {
+
+  const [loading, setLoading] = useState(false);
   const { token } = useToken();
   const screens = useBreakpoint();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  useEffect(() => {
+    if (location.state &&  location.state.message) {
+
+      if (location.state.success) {
+        successNotification(location.state.message);
+      }
+      else{
+        errorNotification(location.state.message);
+      }
+    }
+  }, [location.state]);
+
+  const login = async (values) => {
+    try {
+      setLoading(true);
+      const { email, password } = values;
+      await signInWithEmailAndPassword(authFirebase, email, password);
+      localStorage.removeItem("register"); // remove flag
+      navigate(RouterUrl.HOME);
+
+    } catch (error) {
+      errorNotification(error.message);
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   const styles = {
@@ -52,18 +85,19 @@ export default function Login() {
       <div style={styles.container}>
         <div style={styles.header}>
 
-          <Title style={styles.title}>Sign in</Title>
+          <Title style={styles.title}>[CUSTOMER] Sign in</Title>
           <Text style={styles.text}>
             Welcome back! Please enter your details below to
             sign in.
           </Text>
         </div>
         <Form
+          disabled={loading}
           name="normal_login"
           initialValues={{
             remember: true,
           }}
-          onFinish={onFinish}
+          onFinish={login}
           layout="vertical"
           requiredMark="optional"
         >
@@ -98,7 +132,7 @@ export default function Login() {
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit">
+            <Button block="true" type="primary" htmlType="submit" loading={loading}>
               Log in
             </Button>
             <div style={styles.footer}>
