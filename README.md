@@ -1,6 +1,7 @@
 # Note
 
 copy .env.development ở đây bỏ dô repo
+lấy access Token của firebase: dùng user = useContext(UserContext) -> user.accessToken
 
 https://studenthcmusedu-my.sharepoint.com/my?id=%2Fpersonal%2F21120551%5Fstudent%5Fhcmus%5Fedu%5Fvn%2FDocuments%2FKien%20truc%20phan%20mem&sortField=LinkFilename&isAscending=true
 
