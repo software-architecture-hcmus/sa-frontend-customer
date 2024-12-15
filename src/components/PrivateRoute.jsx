@@ -35,7 +35,7 @@ const PrivateRoute = ({ children }) => {
                 }
             } else {
                 setAuthenticated(false);
-                setMessage("You have been logged out! Please login again.");
+                setMessage("");
             }
             setLoading(false);
         });

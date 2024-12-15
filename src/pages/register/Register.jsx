@@ -3,7 +3,7 @@ import RouterUrl from "../../const/RouterUrl";
 import { Button, Form, Grid, Input, theme, Typography, Select } from "antd";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { ROLE, STATUS, FIREBASE_USER_COLLECTION } from "../../const/User";
-import {  errorNotification } from "../../utils/notification";
+import { errorNotification } from "../../utils/notification";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
@@ -38,8 +38,13 @@ export default function Register() {
         status: STATUS.ACTIVE,
       });
       signOut(authFirebase); // auth cua firebase tu dong login sau khi register -> minh ko muon z nen tu logout ra :))
-      navigate(RouterUrl.LOGIN, {state: {from: location.pathname, message: "Register successfully, you can login now!", success: true}})
-
+      navigate(RouterUrl.LOGIN, {
+        state: {
+          from: location.pathname,
+          message: "Register successfully, you can login now!",
+          success: true,
+        },
+      });
     } catch (error) {
       errorNotification(error.message);
     } finally {
@@ -54,6 +59,9 @@ export default function Register() {
         ? `${token.paddingXL}px`
         : `${token.sizeXXL}px ${token.padding}px`,
       width: "380px",
+      borderRadius: token.borderRadiusSM,
+      backgroundColor: "#f4f8fb",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
     },
     footer: {
       marginTop: token.marginLG,
@@ -67,16 +75,17 @@ export default function Register() {
       marginBottom: token.marginXL,
     },
     section: {
-      alignItems: "center",
-      backgroundColor: token.colorBgContainer,
       display: "flex",
-      padding: screens.md ? `${token.sizeXXL}px 0px` : "0px",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "95vh"
     },
     text: {
       color: token.colorTextSecondary,
     },
     title: {
       fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3,
+      marginTop: token.marginXXS
     },
   };
 
@@ -84,9 +93,12 @@ export default function Register() {
     <section style={styles.section}>
       <div style={styles.container}>
         <div style={styles.header}>
-          <Title style={styles.title}>[CUSTOMER] Sign up</Title>
           <Text style={styles.text}>
-            Welcome to our platform! Please enter your details below to sign up.
+            <b>[Customer portal]</b>
+          </Text>
+          <Title style={styles.title}>REGISTER</Title>
+          <Text style={styles.text}>
+            Welcome to customer portal! Enter your details to sign up.
           </Text>
         </div>
         <Form
@@ -149,7 +161,12 @@ export default function Register() {
           </Form.Item> */}
 
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block="true" type="primary" htmlType="submit" loading={loading}>
+            <Button
+              block="true"
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+            >
               Sign up
             </Button>
             <div style={styles.footer}>
