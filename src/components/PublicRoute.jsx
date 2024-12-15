@@ -16,7 +16,7 @@ const PublicRoute = ({ children }) => {
     useEffect(() => {
         setLoading(true);
         const unsubscribe = onAuthStateChanged(authFirebase, async (user) => {
-            if (user && !localStorage.getItem("register")) {
+            if (user) {
                 const docRef = doc(dbFirebase, FIREBASE_USER_COLLECTION, user.uid);
                 const docSnap = await getDoc(docRef);
                 if(docSnap.exists()){
@@ -29,7 +29,11 @@ const PublicRoute = ({ children }) => {
             setLoading(false);
         });
 
-        return () => unsubscribe();
+        if(!localStorage.getItem("register")){
+            return () => unsubscribe();
+        }
+
+        return;
     }, []);
 
     if (loading) {

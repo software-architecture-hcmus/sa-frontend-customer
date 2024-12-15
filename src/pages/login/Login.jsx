@@ -5,7 +5,7 @@ import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { errorNotification, successNotification } from "../../utils/notification";
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { authFirebase } from "../../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { dbFirebase } from "../../utils/firebase";
@@ -40,17 +40,18 @@ export default function Login() {
     try {
       setLoading(true);
       const { email, password } = values;
-      const userCredential = await signInWithEmailAndPassword(authFirebase, email, password);
-      localStorage.removeItem("register"); // remove flag
+      const userCredential = await signInWithEmailAndPassword(authFirebase, email, password);      
       if(userCredential?.user){
         const docRef = doc(dbFirebase, FIREBASE_USER_COLLECTION, userCredential.user.uid);
         const docSnap = await getDoc(docRef);
         if(docSnap.exists()){
           const userData = docSnap.data();
           if(userData.role === ROLE.CUSTOMER && userData.status === STATUS.ACTIVE){
+            localStorage.removeItem("register"); // remove flag
             navigate(RouterUrl.HOME);
           }
           else{
+            signOut(authFirebase);
             throw new Error("You are not a customer or your account is banned!");
           }
         }
