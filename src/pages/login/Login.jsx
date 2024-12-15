@@ -69,7 +69,10 @@ export default function Login() {
     container: {
       margin: "0 auto",
       padding: screens.md ? `${token.paddingXL}px` : `${token.sizeXXL}px ${token.padding}px`,
-      width: "380px"
+      width: "380px",
+      borderRadius: token.borderRadiusSM,
+      backgroundColor: "#f4f8fb",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
     },
     footer: {
       marginTop: token.marginLG,
@@ -83,16 +86,17 @@ export default function Login() {
       marginBottom: token.marginXL
     },
     section: {
-      alignItems: "center",
-      backgroundColor: token.colorBgContainer,
       display: "flex",
-      padding: screens.md ? `${token.sizeXXL}px 0px` : "0px"
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "95vh"
     },
     text: {
       color: token.colorTextSecondary
     },
     title: {
-      fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3
+      fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3,
+      marginTop: token.marginXXS
     }
   };
 
@@ -100,8 +104,10 @@ export default function Login() {
     <section style={styles.section}>
       <div style={styles.container}>
         <div style={styles.header}>
-
-          <Title style={styles.title}>[CUSTOMER] Sign in</Title>
+        <Text style={styles.text}>
+            <b>[Customer portal]</b>
+          </Text>
+          <Title style={styles.title}>LOGIN</Title>
           <Text style={styles.text}>
             Welcome back! Please enter your details below to
             sign in.
