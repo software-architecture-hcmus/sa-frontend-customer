@@ -4,6 +4,7 @@ import { authFirebase, dbFirebase } from "../utils/firebase";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { FIREBASE_USER_COLLECTION, STATUS, ROLE } from "../const/User";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../const/LocalStorage";
 import { signOut } from "firebase/auth";
 import RouterUrl from "../const/RouterUrl";
 import Spinner from "./Spinner";
@@ -49,6 +50,8 @@ const PrivateRoute = ({ children }) => {
 
     if (!authenticated) {
         signOut(authFirebase);
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
         return <Navigate to={RouterUrl.LOGIN} state={{ from: location.pathname, message: message, success: false }} replace />;
     }
 

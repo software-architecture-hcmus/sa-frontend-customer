@@ -4,6 +4,7 @@ import { Button, Form, Grid, Input, theme, Typography } from "antd";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { errorNotification, successNotification } from "../../utils/notification";
+import { ACCESS_TOKEN, REGISTER_FLAG, REFRESH_TOKEN } from "../../const/LocalStorage";
 
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { authFirebase } from "../../utils/firebase";
@@ -47,13 +48,19 @@ export default function Login() {
         if(docSnap.exists()){
           const userData = docSnap.data();
           if(userData.role === ROLE.CUSTOMER && userData.status === STATUS.ACTIVE){
-            localStorage.removeItem("register"); // remove flag
+            localStorage.removeItem(REGISTER_FLAG); // remove flag
+            localStorage.setItem(ACCESS_TOKEN, userCredential.user.stsTokenManager.accessToken);
+            localStorage.setItem(REFRESH_TOKEN, userCredential.user.stsTokenManager.refreshToken);
             navigate(RouterUrl.HOME);
           }
           else{
             signOut(authFirebase);
             throw new Error("You are not a customer or your account is banned!");
           }
+        }
+        else{
+          signOut(authFirebase);
+          throw new Error("User not found!");
         }
       }
 

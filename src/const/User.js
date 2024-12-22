@@ -10,3 +10,9 @@ export const STATUS = {
 }
 
 export const FIREBASE_USER_COLLECTION = "users"
+
+export const GENDER = {
+    MALE: "MALE",
+    FEMALE: "FEMALE",
+    OTHER: "OTHER",
+}

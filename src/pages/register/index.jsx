@@ -1,14 +1,17 @@
 import { useState } from "react";
 import RouterUrl from "../../const/RouterUrl";
-import { Button, Form, Grid, Input, theme, Typography, Select } from "antd";
-import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { ROLE, STATUS, FIREBASE_USER_COLLECTION } from "../../const/User";
+import { Button, Form, Grid, Input, theme, Typography, Select, DatePicker } from "antd";
+import { LockOutlined, MailOutlined, UserOutlined, IdcardOutlined, CalendarOutlined } from "@ant-design/icons";
+import { ROLE, STATUS, FIREBASE_USER_COLLECTION, GENDER } from "../../const/User";
 import { errorNotification } from "../../utils/notification";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { authFirebase, dbFirebase } from "../../utils/firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
+import { REGISTER_FLAG } from "../../const/LocalStorage";
+
+//TODO: add image and facebook account
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -25,17 +28,23 @@ export default function Register() {
     const { email, password } = values;
     try {
       setLoading(true);
-      localStorage.setItem("register", "true"); // flag
+      localStorage.setItem(REGISTER_FLAG, "true"); // flag
       const userCredential = await createUserWithEmailAndPassword(
         authFirebase,
         email,
         password
       );
       const userRef = collection(dbFirebase, FIREBASE_USER_COLLECTION);
+      const userData = {
+        ...values,
+        date_of_birth: values.date_of_birth.format("YYYY-MM-DD"),
+      }
+      delete userData.password;
       await setDoc(doc(userRef, userCredential.user.uid), {
         email: userCredential.user.email,
         role: ROLE.CUSTOMER,
         status: STATUS.ACTIVE,
+        ...userData,
       });
       signOut(authFirebase); // auth cua firebase tu dong login sau khi register -> minh ko muon z nen tu logout ra :))
       navigate(RouterUrl.LOGIN, {
@@ -137,6 +146,43 @@ export default function Register() {
               type="password"
               placeholder="Password"
             />
+          </Form.Item>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your name!",
+              },
+            ]}
+          >
+            <Input prefix={<IdcardOutlined />} placeholder="Full name" />
+          </Form.Item>
+          <Form.Item
+            name ="date_of_birth"
+            rules={[
+              {
+                required: true,
+                message: "Please input your date of birth!",
+              },
+            ]}
+          >
+            <DatePicker prefix={<CalendarOutlined />} placeholder="Date of birth" />
+          </Form.Item>
+
+          <Form.Item
+            name="gender"
+            rules={[
+              {
+                required: true,
+                message: "Please input your gender!",
+              },
+            ]}
+          >
+            <Select prefix={<UserOutlined />} placeholder="Gender" options={Object.values(GENDER).map((gender) => ({
+              label: gender,
+              value: gender,
+            }))} />
           </Form.Item>
 
           {/* <Form.Item

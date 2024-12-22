@@ -2,7 +2,7 @@ import Header from "./Header";
 import { Layout } from "antd";
 const { Content } = Layout;
 
-const PrivateContainer = ({ children }) => {
+const PrivateContainer = ({ children, title }) => {
     return (
         <>
             <Header />
