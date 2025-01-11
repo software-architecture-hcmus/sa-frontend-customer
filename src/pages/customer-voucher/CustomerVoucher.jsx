@@ -29,7 +29,16 @@ const CustomerVoucher = () => {
                     sm={8}
                     md={6}
                 >
-                    <Voucher voucher_id={voucher.id} image={voucher.voucher.image} description={voucher.voucher.description} expiryDate={voucher.voucher.expiry_date} status={voucher.voucher.status} code={voucher.code} />
+                    <Voucher
+                        data={{
+                            id: voucher.id,
+                            image: voucher.voucher.image,
+                            description: voucher.voucher.description,
+                            expiryDate: voucher.voucher.expiry_date,
+                            status: voucher.voucher.status,
+                            code: voucher.code
+                        }}
+                    />
                 </Col>
             ))}
         </Row>
