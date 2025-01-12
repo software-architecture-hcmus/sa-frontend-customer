@@ -9,11 +9,11 @@ import {
 } from "../../utils/notification";
 import UserContext from "../../contexts/UserContext";
 import Spinner from "../../components/Spinner";
-
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const user = useContext(UserContext);
 
   const subscribeEvent = async (event) => {
@@ -58,19 +58,16 @@ const Home = () => {
         const responseSubscribedEvents = await apiClient.get(
           Url.GET_MY_FAVOURITE_EVENTS.replace(":id", user.uid)
         );
-
         const events = responseEvents.data.data;
         const subscribedEventIds = responseSubscribedEvents.data.data.map(
           (subscribedEvent) => subscribedEvent.event.id
         );
-
         const eventsData = events.map((event) => {
           return {
             ...event,
             isSubscribed: subscribedEventIds.includes(event.id),
           };
         });
-
         setEvents(eventsData);
       } catch (error) {
         errorNotification(error.message);
@@ -80,13 +77,15 @@ const Home = () => {
     };
     fetchEvents();
   }, []);
-
+  const handleClickEvent = (id) =>{
+    navigate(`/events/${id}`);
+  }
   return loading ? (
     <Spinner />
   ) : (
     <Row gutter={[16, 16]}>
       {events.map((event) => (
-        <Col key={event.id} xs={24} sm={12} md={8} lg={6}>
+        <Col key={event.id} xs={24} sm={12} md={8} lg={6} onClick={()=> handleClickEvent(event.id)}>
           <EventCard
             event={event}
             onSubscribe={event.isSubscribed ? unsubscribeEvent : subscribeEvent}
