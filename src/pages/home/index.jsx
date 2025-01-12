@@ -55,24 +55,27 @@ const Home = () => {
       try {
         setLoading(true);
         const responseEvents = await apiClient.get(Url.GET_EVENTS);
+        console.log("responseEvents: ",responseEvents);
         const responseSubscribedEvents = await apiClient.get(
           Url.GET_MY_FAVOURITE_EVENTS.replace(":id", user.uid)
         );
-
+        console.log("responseSubscribedEvents: ", responseSubscribedEvents);
         const events = responseEvents.data.data;
+        console.log("events: ", events);
         const subscribedEventIds = responseSubscribedEvents.data.data.map(
           (subscribedEvent) => subscribedEvent.event.id
         );
-
+        console.log("subscribedEventIds:", subscribedEventIds);
         const eventsData = events.map((event) => {
           return {
             ...event,
             isSubscribed: subscribedEventIds.includes(event.id),
           };
         });
-
+        console.log("eventsData: ", eventsData);
         setEvents(eventsData);
       } catch (error) {
+        console.log(error);
         errorNotification(error.message);
       } finally {
         setLoading(false);
