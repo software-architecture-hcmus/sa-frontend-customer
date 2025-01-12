@@ -2,16 +2,16 @@ import GameWrapper from "../../../../components/game/GameWrapper"
 import { GAME_STATES, GAME_STATE_COMPONENTS } from "../../../../constants"
 import { usePlayerContext } from "../../../../contexts/player"
 import { useSocketContext } from "../../../../contexts/socket"
-import { createElement, useEffect, useState } from "react"
+import { createElement, useEffect, useState,useContext } from "react"
 import toast from "react-hot-toast"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
+import UserContext from "../../../../contexts/UserContext";
 
 export default function QuizPlay() {
   const navigate = useNavigate()
-  const { id } = useParams();
   const { socket } = useSocketContext()
   const { player, dispatch } = usePlayerContext()
-
+  const user = useContext(UserContext);
   useEffect(() => {
     if (!player) {
         navigate("/")
@@ -22,14 +22,32 @@ export default function QuizPlay() {
   
   useEffect(() => {
     socket.on("game:status", (status) => {
-      setState({
-        ...state,
-        status: status,
-        question: {
-          ...state.question,
-          current: status.question,
-        },
-      })
+      if(status?.name === "SHOW_RESULT")
+      {
+        if (status.data?.id === user?.uid)
+        {
+          setState({
+            ...state,
+            status: status,
+            question: {
+              ...state.question,
+              current: status.question,
+            },
+          })
+        }
+      }
+      else
+      {
+        setState({
+          ...state,
+          status: status,
+          question: {
+            ...state.question,
+            current: status.question,
+          },
+        })
+      }
+      
     })
 
     socket.on("game:reset", () => {

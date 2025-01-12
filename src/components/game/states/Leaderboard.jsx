@@ -5,13 +5,13 @@ export default function Leaderboard({ data: { leaderboard } }) {
         Leaderboard
       </h2>
       <div className="flex w-full flex-col gap-2">
-        {leaderboard.map(({ username, points }, key) => (
+        {leaderboard?.map(({ username, score }, key) => (
           <div
             key={key}
             className="flex w-full justify-between rounded-md bg-primary p-3 text-2xl font-bold text-white"
           >
             <span className="drop-shadow-md">{username}</span>
-            <span className="drop-shadow-md">{points}</span>
+            <span className="drop-shadow-md">{score}</span>
           </div>
         ))}
       </div>

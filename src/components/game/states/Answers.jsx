@@ -1,6 +1,8 @@
 import AnswerButton from "../../AnswerButton"
 import { useSocketContext } from "../../../contexts/socket"
-import { useEffect, useRef, useState } from "react"
+import UserContext from "../../../contexts/UserContext";
+
+import { useEffect, useState, useContext } from "react"
 import clsx from "clsx"
 import {
   ANSWERS_COLORS,
@@ -11,6 +13,7 @@ import {
 } from "../../../constants"
 import useSound from "use-sound"
 import { usePlayerContext } from "../../../contexts/player"
+
 const calculatePercentages = (objectResponses) => {
   const keys = Object.keys(objectResponses)
   const values = Object.values(objectResponses)
@@ -38,7 +41,7 @@ export default function Answers({
 }) {
   const { socket } = useSocketContext()
   const { player } = usePlayerContext()
-
+  const user = useContext(UserContext);
   const [percentages, setPercentages] = useState([])
   const [cooldown, setCooldown] = useState(time)
   const [totalAnswer, setTotalAnswer] = useState(0)
@@ -62,8 +65,7 @@ export default function Answers({
     if (!player) {
       return
     }
-
-    socket.emit("player:selectedAnswer", answer)
+    socket.emit("player:selectedAnswer", {answer: answer, gameID: player.room, id: user.uid})
     sfxPop()
   }
 
