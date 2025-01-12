@@ -10,6 +10,7 @@ const Url = {
     UNSUBSCRIBE_EVENT: "/api/v1/events/unsubscribe",
     GET_MY_FAVOURITE_EVENTS: "/api/v1/favourites/customer/:id",
     GET_MY_NOTIFICATIONS: "/api/v1/notifications/account/:id",
+    GET_GAMES_OF_EVENT: "/api/v1/games/event/:id",
 }
 
 export default Url;
