@@ -34,8 +34,8 @@ const EventCard = ({ event, onSubscribe }) => {
       hoverable
       cover={
         <img
-          alt={event.name}
-          src={event.image}
+          alt={event.name }
+          src={event.image  || "https://placehold.co/600x400@2x.png"}
           style={{
             height: 150,
             objectFit: "cover",

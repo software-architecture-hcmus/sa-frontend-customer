@@ -5,11 +5,12 @@ import apiClient from "../../utils/apiClient";
 import Url from "../../const/Url";
 import { errorNotification } from "../../utils/notification";
 import Spinner from "../../components/Spinner";
+import EventDetail from "./detail";
 
 const Event = () => {
     const { id } = useParams();
     const [event, setEvent] = useState({});
-    const [game, setGame] = useState([]);
+    const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(false);
     useEffect(()=>{
         const fetchEvent = async()=>{
@@ -22,20 +23,19 @@ const Event = () => {
                     setEvent({})
                 }
                 const event = result.data.data;
-                console.log("event: ", event);
+                setEvent(event);
                 const fetchGame = await apiClient.get(Url.GET_GAMES_OF_EVENT.replace(":id", id));
-                console.log(fetchGame);
                 if (!fetchGame || fetchGame.status !=200 || fetchGame?.data?.data)
                 {
-                    setGame([])
+                    setGames([])
                 }
                 const game = fetchGame.data.data;
-                setGame(game);
+                setGames(game);
             }
             catch(error)
             {
                 errorNotification(error.message);
-                setGame([])
+                setGames([])
                 setEvent({})
             }
             finally {
@@ -48,7 +48,7 @@ const Event = () => {
     return (
         !loading ? (
                 (   event?
-                <div>Event details here</div>:
+                <EventDetail event={event} games={games} />:
                 <div> No data</div>
             )
         ) : (
