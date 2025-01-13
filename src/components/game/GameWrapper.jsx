@@ -5,7 +5,7 @@ import { useSocketContext } from "../../contexts/socket"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-export default function GameWrapper({ children, textNext, onNext, manager }) {
+export default function GameWrapper({ children, statusName }) {
   const { socket } = useSocketContext()
   const { player, dispatch } = usePlayerContext()
   const navigate = useNavigate()
@@ -50,27 +50,20 @@ export default function GameWrapper({ children, textNext, onNext, manager }) {
             {`${questionState.current} / ${questionState.total}`}
           </div>
         )}
-
-        {manager && (
-          <Button
-            className="self-end bg-white px-4 !text-black"
-            onClick={() => onNext()}
-          >
-            {textNext}
-          </Button>
-        )}
       </div>
 
       {children}
 
-      {!manager && (
-        <div className="z-50 flex items-center justify-between bg-white px-4 py-2 text-lg font-bold text-white">
+        {
+          statusName && statusName!='FINISH' && 
+          <div className="z-50 flex items-center justify-between bg-white px-4 py-2 text-lg font-bold text-white">
           <p className="text-gray-800">{!!player && player.username}</p>
           <div className="rounded-sm bg-gray-800 px-3 py-1 text-lg">
             {!!player && player.points}
           </div>
         </div>
-      )}
+        }
+      
     </section>
   )
 }
