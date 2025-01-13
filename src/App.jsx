@@ -16,6 +16,7 @@ import QuizPlay from './pages/game/quiz/detail';
 import { SocketContextProvider } from './contexts/socket';
 import { PlayerContextProvider } from './contexts/player';
 import "./styles/globals.css"
+import FlappyBird from './pages/game/flappybird';
 function App() {
 
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path={RouterUrl.EVENT_DETAIL} element={<PrivateRoute><PrivateContainer title="Event Detail"><Event /></PrivateContainer></PrivateRoute>} />
               <Route path={RouterUrl.GAME_QUIZ_JOIN} element={<PrivateRoute><PrivateContainer title="Quiz game join"><Quizjoin /></PrivateContainer></PrivateRoute>} />
               <Route path={RouterUrl.GAME_QUIZ_PLAY} element={<PrivateRoute><PrivateContainer title="Quiz game play"><QuizPlay /></PrivateContainer></PrivateRoute>} />
+              <Route path={RouterUrl.GAME_FLAPPYBIRD} element={<PrivateRoute><PrivateContainer title="Flappy Bird"><FlappyBird /></PrivateContainer></PrivateRoute>} />
             </Routes>
           </BrowserRouter>
       </PlayerContextProvider>

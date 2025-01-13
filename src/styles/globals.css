@@ -5,6 +5,17 @@
 .btn-shadow {
   box-shadow: rgba(0, 0, 0, 0.25) 0px -4px inset;
 }
+#gameCanvas {
+  display: block; /* Đảm bảo canvas không có margin hoặc padding mặc định */
+}
+
+#restartButton {
+  padding: 10px 20px;
+  background-color: #ffcc00;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
 
 .btn-shadow span {
   display: block;
