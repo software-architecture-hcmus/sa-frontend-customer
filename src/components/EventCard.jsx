@@ -2,14 +2,17 @@ import { Card, Button, Tag, Typography, Space } from "antd";
 import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { EVENT_STATUS, EVENT_STATUS_COLOR } from "../const/Event";
+import { useNavigate } from "react-router-dom";
 
 const { Meta } = Card;
 const { Text } = Typography;
+
 
 const getEventStatus = (startDate, endDate) => {
   const now = dayjs();
   const start = dayjs(startDate);
   const end = dayjs(endDate);
+  
   if (now.isBefore(start)) {
     return {
       text: EVENT_STATUS.COMING_SOON,
@@ -29,6 +32,10 @@ const getEventStatus = (startDate, endDate) => {
 };
 const EventCard = ({ event, onSubscribe }) => {
   const status = getEventStatus(event.start, event.end);
+  const navigate = useNavigate();
+  const handleClickEvent = (id) => {
+    navigate(`/events/${id}`);
+  };
   return (
     <Card
       hoverable
@@ -57,7 +64,7 @@ const EventCard = ({ event, onSubscribe }) => {
       }}
     >
       <Space direction="vertical" size="small" style={{ width: "100%" }}>
-        <Meta title={event.name} style={{ marginBottom: 8 }} />
+        <Meta title={event.name} style={{ marginBottom: 8 }} onClick={() => handleClickEvent(event.id)}/>
 
         <Space>
           <CalendarOutlined />
