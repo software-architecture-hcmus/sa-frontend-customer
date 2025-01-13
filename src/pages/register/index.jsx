@@ -25,6 +25,12 @@ export default function Register() {
   const location = useLocation();
 
   const register = async (values) => {
+    Object.keys(values).forEach(key => {
+      if (values[key] === undefined) {
+        values[key] = "";
+      }
+    });
+
     const { email, password } = values;
     try {
       setLoading(true);
