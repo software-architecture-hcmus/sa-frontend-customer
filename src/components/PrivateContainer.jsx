@@ -30,8 +30,8 @@ const PrivateContainer = ({ children, title }) => {
     socket.on(SOCKET_CREATE_EVENT_NOTIFICATION, (data) => {
       infoNotification(data.content);
       setNotifications((prevNotifications) => [
+        { content: data.content, event: { id: data.event_id } },
         ...prevNotifications,
-        { content: data.content, event: { id: data.eventId } },
       ]);
     });
 
