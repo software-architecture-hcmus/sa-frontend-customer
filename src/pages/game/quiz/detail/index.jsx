@@ -65,7 +65,7 @@ export default function QuizPlay() {
   }, [state])
 
   return (
-    <GameWrapper>
+    <GameWrapper statusName = {state?.status?.name}>
       {GAME_STATE_COMPONENTS[state.status.name] &&
         createElement(GAME_STATE_COMPONENTS[state.status.name], {
           data: state.status.data,

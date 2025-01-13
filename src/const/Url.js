@@ -11,6 +11,7 @@ const Url = {
     GET_MY_FAVOURITE_EVENTS: "/api/v1/favourites/customer/:id",
     GET_MY_NOTIFICATIONS: "/api/v1/notifications/account/:id",
     GET_GAMES_OF_EVENT: "/api/v1/games/event/:id",
+    CREATE_VOUCHER_FOR_QUIZ_GAME: "/api/v1/vouchers/quiz"
 }
 
 export default Url;
