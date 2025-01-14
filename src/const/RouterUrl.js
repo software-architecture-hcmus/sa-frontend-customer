@@ -11,6 +11,7 @@ const RouterUrl = {
     RECEIVE_GIVE_AWAY: "/receive-give-away",
     GAME_QUIZ_JOIN:"/game/quiz/:id",
     GAME_QUIZ_PLAY:"/game/quiz/play/:id",
+    HISTORY:"/history",
 }
 
 export default RouterUrl;

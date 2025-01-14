@@ -3,6 +3,7 @@ import {
   UserOutlined,
   CalendarOutlined,
   CreditCardOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 import RouterUrl from "../const/RouterUrl";
 import { Layout, Menu } from "antd";
@@ -23,6 +24,10 @@ const SidebarMenu = [
     label: <Link to={RouterUrl.MY_VOUCHERS}>My Vouchers</Link>,
     icon: <CreditCardOutlined />,
   },
+  {
+    label: <Link to={RouterUrl.HISTORY}>History</Link>,
+    icon: <HistoryOutlined/>,
+  }
 ];
 
 const Sidebar = () => {

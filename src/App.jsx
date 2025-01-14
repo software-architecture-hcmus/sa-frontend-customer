@@ -15,6 +15,7 @@ import Quizjoin from './pages/game/quiz';
 import QuizPlay from './pages/game/quiz/detail';
 import { SocketContextProvider } from './contexts/socket';
 import { PlayerContextProvider } from './contexts/player';
+import History from './pages/history/History';
 import "./styles/globals.css"
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
               <Route path={RouterUrl.EVENT_DETAIL} element={<PrivateRoute><PrivateContainer title="Event Detail"><Event /></PrivateContainer></PrivateRoute>} />
               <Route path={RouterUrl.GAME_QUIZ_JOIN} element={<PrivateRoute><PrivateContainer title="Quiz game join"><Quizjoin /></PrivateContainer></PrivateRoute>} />
               <Route path={RouterUrl.GAME_QUIZ_PLAY} element={<PrivateRoute><PrivateContainer title="Quiz game play"><QuizPlay /></PrivateContainer></PrivateRoute>} />
+              <Route path={RouterUrl.HISTORY} element={<PrivateRoute><PrivateContainer title="History"><History /></PrivateContainer></PrivateRoute>} />
             </Routes>
           </BrowserRouter>
       </PlayerContextProvider>
