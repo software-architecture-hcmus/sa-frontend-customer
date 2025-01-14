@@ -1,7 +1,7 @@
 import { useState } from "react";
 import RouterUrl from "../../const/RouterUrl";
 import { Button, Form, Grid, Input, theme, Typography, Select, DatePicker } from "antd";
-import { LockOutlined, MailOutlined, UserOutlined, IdcardOutlined, CalendarOutlined } from "@ant-design/icons";
+import { LockOutlined, MailOutlined, UserOutlined, IdcardOutlined, CalendarOutlined, PhoneOutlined, FacebookOutlined } from "@ant-design/icons";
 import { ROLE, STATUS, FIREBASE_USER_COLLECTION, GENDER } from "../../const/User";
 import { errorNotification } from "../../utils/notification";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -25,6 +25,12 @@ export default function Register() {
   const location = useLocation();
 
   const register = async (values) => {
+    Object.keys(values).forEach(key => {
+      if (values[key] === undefined) {
+        values[key] = "";
+      }
+    });
+
     const { email, password } = values;
     try {
       setLoading(true);
@@ -133,6 +139,12 @@ export default function Register() {
             <Input prefix={<MailOutlined />} placeholder="Email" />
           </Form.Item>
           <Form.Item
+            name="phone"
+           
+          >
+            <Input prefix={<PhoneOutlined />} placeholder="Phone number" />
+          </Form.Item>
+          <Form.Item
             name="password"
             rules={[
               {
@@ -183,6 +195,12 @@ export default function Register() {
               label: gender,
               value: gender,
             }))} />
+          </Form.Item>
+
+          <Form.Item
+            name="facebook_account"
+          >
+            <Input prefix={<FacebookOutlined />} placeholder="Facebook account URL" />
           </Form.Item>
 
           {/* <Form.Item

@@ -10,12 +10,12 @@ import {
 import UserContext from "../../contexts/UserContext";
 import Spinner from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
-const Home = () => {
+
+const SubscribedEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useContext(UserContext);
-
   const subscribeEvent = async (event) => {
     try {
       const response = await apiClient.post(Url.SUBSCRIBE_EVENT, {
@@ -51,7 +51,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchSubscribedEvents = async () => {
       try {
         setLoading(true);
         const responseEvents = await apiClient.get(Url.GET_EVENTS);
@@ -75,22 +75,23 @@ const Home = () => {
         setLoading(false);
       }
     };
-    fetchEvents();
-  }, []);
+    fetchSubscribedEvents();
+  }, [user.uid]);
   return loading ? (
     <Spinner />
   ) : (
     <Row gutter={[16, 16]}>
-      {events.map((event) => (
-        <Col key={event.id} xs={24} sm={12} md={8} lg={6}>
-          <EventCard
-            event={event}
+      {events
+        .filter((event) => event.isSubscribed)
+        .map((event) => (
+          <Col key={event.id} xs={24} sm={12} md={8} lg={6}>
+            <EventCard event={event} 
             onSubscribe={event.isSubscribed ? unsubscribeEvent : subscribeEvent}
-          />
-        </Col>
-      ))}
+            />
+          </Col>
+        ))}
     </Row>
   );
 };
 
-export default Home;
+export default SubscribedEvents; 

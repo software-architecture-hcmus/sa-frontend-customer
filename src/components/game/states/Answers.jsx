@@ -116,7 +116,7 @@ export default function Answers({
           {question}
         </h2>
 
-        {!!image && !responses && (
+        {!!image && image!="null" && !responses && (
           <img src={image} className="h-48 max-h-60 w-auto rounded-md" />
         )}
 

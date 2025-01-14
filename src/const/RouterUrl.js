@@ -12,6 +12,7 @@ const RouterUrl = {
     GAME_QUIZ_JOIN:"/game/quiz/:id",
     GAME_QUIZ_PLAY:"/game/quiz/play/:id",
     HISTORY:"/history",
+    GAME_FLAPPYBIRD:"/game/flappybird/:id",
 }
 
 export default RouterUrl;
