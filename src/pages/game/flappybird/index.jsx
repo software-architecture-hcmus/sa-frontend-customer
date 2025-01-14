@@ -153,13 +153,13 @@ const GameComponent = () => {
   },[gameOver])
   return (
     <div className="flex items-center justify-center h-screen relative">
-      <div className="absolute top-4 right-4">
+     {(!start ||gameOver) && <div className="absolute top-4 right-4">
         <Typography style={{alignItems: "center"}}>Want more turn?</Typography>
         <div>
           <ShareToFacebook game_id={id}/>
           <AskGameTurnBtn game_id={id} />
         </div>
-      </div>
+      </div>}
       {/* Canvas game */}
       {!gameOver && start ? (
         <canvas id="gameCanvas" />
