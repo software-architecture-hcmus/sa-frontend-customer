@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Button from './Button'
 import apiClient from '../utils/apiClient'
-import { message, Modal } from 'antd'
+import { message, Modal, Typography } from 'antd'
 
 const AskGameTurnBtn = ({game_id}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -30,10 +30,10 @@ const AskGameTurnBtn = ({game_id}) => {
     return (
         <>
             <Button onClick={showModal}>
-                hello
+                <Typography> Ask game turn </Typography>
             </Button>
             <Modal
-                title="Enter your email"
+                title="Enter email"
                 open={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -42,7 +42,8 @@ const AskGameTurnBtn = ({game_id}) => {
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="Enter your email" 
+                    placeholder="Enter email of the player you want to ask" 
+                    style={{width: "270px"}}
                 />
             </Modal>
         </>

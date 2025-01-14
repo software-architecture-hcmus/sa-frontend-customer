@@ -143,8 +143,6 @@ const History = () => {
     return (
         <>
             <Tabs defaultActiveKey='1' items={items} />
-            <div class="fb-share-button" data-href="https://helpdesk.dev.jarvis.cx/" data-layout="" data-size=""><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhelpdesk.dev.jarvis.cx%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
-            <AskGameTurnBtn game_id={"ed54df4c-2583-469b-8ac8-249663be2bb3"} />
         </>
     )
 }

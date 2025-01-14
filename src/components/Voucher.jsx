@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Card, Button, Modal, Row, Col, Typography, Input, message } from 'antd';
 import { QRCodeSVG } from 'qrcode.react';
 import apiClient from '../utils/apiClient';
+import VoucherImage from '../assets/voucher.jpg'
 
 const Voucher = ({ data }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -84,7 +85,12 @@ const Voucher = ({ data }) => {
             <Card hoverable onClick={showModal}>
                 <Row gutter={[16, 16]} style={{ flexDirection: 'column', alignItems: 'center' }}>
                     <Col style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img src={voucher.image} alt="Voucher" style={{ width: '100%', height: 'auto' }} />
+                        <img 
+                            src={voucher.image || VoucherImage} 
+                            alt="Voucher" 
+                            onError={(e) => { e.target.onerror = null; e.target.src = VoucherImage; }} 
+                            style={{ width: '100%', height: 'auto' }} 
+                        />
                     </Col>
                     <Col style={{ textAlign: 'center', marginTop: 16 }}>
                         <Typography>
