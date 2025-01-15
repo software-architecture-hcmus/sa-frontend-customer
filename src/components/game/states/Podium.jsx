@@ -9,7 +9,7 @@ export default function Podium({ data: { subject, top } }) {
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState(999);
-  const [voucher, setVoucher] = useState({});
+  const [voucher, setVoucher] = useState();
   const user = useContext(UserContext);
   useEffect(() => {
     if (top) {
@@ -75,7 +75,7 @@ export default function Podium({ data: { subject, top } }) {
                 </div>
               </div>
               {
-                voucher ?
+                voucher && Object.keys(voucher).length !== 0 ?
                 <div className="player-voucher">
                   <h4 className="text-2xl font-bold text-center">Your Voucher</h4>
                   <VoucherCard value={voucher.value} expiry_date = {voucher.expiry_date} description = {voucher. expiry_date}/>
