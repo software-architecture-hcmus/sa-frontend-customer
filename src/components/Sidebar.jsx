@@ -49,7 +49,7 @@ const Sidebar = () => {
           padding: "16px",
         }}
       >
-        {collapsed ? <h3>LOGO</h3> : <h1>LOGO</h1>}
+        <h1 style={{fontSize: "1.5rem", fontWeight: "bold"}}>LOGO</h1>
       </div>
       <Menu mode="inline" items={SidebarMenu} />
     </Sider>

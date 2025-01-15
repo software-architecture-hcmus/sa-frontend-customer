@@ -33,31 +33,33 @@ const History = () => {
         fetchRequestTurn();
     }, [])
 
-    const vouchersTable = <Table
-        dataSource={transactions}
-        columns={[
-            {
-                title: 'Sender Name',
-                dataIndex: 'sender_name',
-                key: 'sender_name',
-            },
-            {
-                title: 'Receiver Name',
-                dataIndex: 'receiver_name',
-                key: 'receiver_name',
-            },
-            {
-                title: 'Status',
-                dataIndex: 'status',
-                key: 'status',
-            },
-            {
-                title: 'Created At',
-                dataIndex: 'createdAt',
-                key: 'createdAt',
-            },
-        ]}
-    />
+    const vouchersTable = <div style={{ overflowX: 'auto' }}>
+        <Table
+            dataSource={transactions}
+            columns={[
+                {
+                    title: 'Sender',
+                    dataIndex: 'sender_name',
+                    key: 'sender_name',
+                },
+                {
+                    title: 'Receiver',
+                    dataIndex: 'receiver_name',
+                    key: 'receiver_name',
+                },
+                {
+                    title: 'Status',
+                    dataIndex: 'status',
+                    key: 'status',
+                },
+                // {
+                //     title: 'Created At',
+                //     dataIndex: 'createdAt',
+                //     key: 'createdAt',
+                // },
+            ]}
+        />
+    </div>
 
     const handleAccept = async (record) => {
         console.log(record);
@@ -65,11 +67,15 @@ const History = () => {
             const rs = await apiClient.post('/api/v1/games/accept-game-turn', {
                 request_turn_id: record.id,
                 sender_id: record.sender_id,
-            })
+            });
             message.success(rs.data.message);
-        }
-        catch (e) {
-            message.error(e.response.data?.message)
+            
+            // Update the status and hide action buttons
+            setRequestTurns(prev => prev.map(turn => 
+                turn.id === record.id ? { ...turn, status: 'ACCEPTED' } : turn
+            ));
+        } catch (e) {
+            message.error(e.response.data?.message);
         }
     }
 
@@ -78,53 +84,57 @@ const History = () => {
             const rs = await apiClient.post('/api/v1/games/reject-game-turn', {
                 request_turn_id: record.id,
                 sender_id: record.sender_id,
-            })
+            });
             message.success(rs.data.message);
+            
+            // Update the status and hide action buttons
+            setRequestTurns(prev => prev.map(turn => 
+                turn.id === record.id ? { ...turn, status: 'REJECTED' } : turn
+            ));
+        } catch (e) {
+            message.error(e.response.data?.message);
         }
-        catch (e) {
-            message.error(e.response.data?.message)
-        }
-
     }
 
-    const RequestTurnsTable = <Table
-        dataSource={requestTurns}
-        columns={[
-            {
-                title: 'Sender Name',
-                dataIndex: 'sender_name',
-                key: 'sender_name',
-            },
-            {
-                title: 'Receiver Name',
-                dataIndex: 'receiver_name',
-                key: 'receiver_name',
-            },
-            {
-                title: 'Status',
-                dataIndex: 'status',
-                key: 'status',
-            },
-            {
-                title: 'Created At',
-                dataIndex: 'createdAt',
-                key: 'createdAt',
-            },
-            {
-                title: 'Action',
-                key: 'action',
-                render:
-                    (text, record) => (
-                        record.status === 'PENDING' && record.sender_id != user.uid ? (
+    const RequestTurnsTable = <div style={{ overflowX: 'auto', backgroundColor: 'white' }}>
+        <Table
+            dataSource={requestTurns}
+            columns={[
+                {
+                    title: 'Sender',
+                    dataIndex: 'sender_name',
+                    key: 'sender_name',
+                },
+                {
+                    title: 'Receiver',
+                    dataIndex: 'receiver_name',
+                    key: 'receiver_name',
+                },
+                {
+                    title: 'Status',
+                    dataIndex: 'status',
+                    key: 'status',
+                },
+                // {
+                //     title: 'Created At',
+                //     dataIndex: 'createdAt',
+                //     key: 'createdAt',
+                // },
+                {
+                    title: 'Action',
+                    key: 'action',
+                    render: (text, record) => (
+                        record.status === 'PENDING' && record.sender_id !== user.uid ? (
                             <>
                                 <Button type="primary" onClick={() => handleAccept(record)}>Accept</Button>
                                 <Button type="danger" style={{ border: "solid 1px", marginLeft: "1px" }} onClick={() => handleReject(record)}>Reject</Button>
                             </>
                         ) : null
                     )
-            }
-        ]}
-    />
+                }
+            ]}
+        />
+    </div>
 
 
     const items = [
